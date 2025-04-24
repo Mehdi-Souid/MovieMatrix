@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MovieMatrix</title>
+</head>
+<body>
+    <h1>All Movies</h1>
+    <ul>
+        {% for movie in movies %}
+            <li>{{ movie.mov_title }} ({{ movie.mov_year }})</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
