@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MovieMatrix</title>
+    <link rel="stylesheet" href="{% static 'movies/css/style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="app-name">MovieMatrix</span>
+        </div>
+        <div class="nav-right">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'wishlist' %}">Wishlist</a>
+            {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link">Logout</button>
+                </form>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

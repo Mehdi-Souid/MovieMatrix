@@ -1,0 +1,23 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+<div class="movie-detail">
+    <img src="{{ movie.image.url }}" alt="{{ movie.mov_title }}">
+    <h1>{{ movie.mov_title }}</h1>
+    <p>Year: {{ movie.mov_year }}</p>
+    <p>Duration: {{ movie.mov_time }} minutes</p>
+    
+    <h3>Actors:</h3>
+    <ul>
+        {% for cast in movie.moviecast_set.all %}
+        <li>{{ cast.actor }} as {{ cast.role }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Genres:</h3>
+    <ul>
+        {% for genre in movie.genres.all %}
+        <li>{{ genre.gen_title }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

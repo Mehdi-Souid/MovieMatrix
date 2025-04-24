@@ -1,0 +1,15 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+<div class="wishlist">
+    <h1>Your Wishlist</h1>
+    {% for item in wishlist %}
+    <div class="wishlist-item">
+        <img src="{{ item.movie.image.url }}" alt="{{ item.movie.mov_title }}">
+        <h3>{{ item.movie.mov_title }}</h3>
+        <a href="{% url 'movie_detail' item.movie.id %}">View Details</a>
+    </div>
+    {% empty %}
+    <p>Your wishlist is empty.</p>
+    {% endfor %}
+</div>
+{% endblock %}
