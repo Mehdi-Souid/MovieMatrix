@@ -6,63 +6,63 @@
             <div class="card bg-black border-secondary shadow-lg">
                 <div class="card-body p-4">
                     <h2 class="text-danger text-center mb-4">
-                        <i class="bi bi-person-plus"></i> Create Account
+                        <i class="bi bi-person-gear"></i> Edit Profile
                     </h2>
+                    
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
 
                     <form method="post" class="needs-validation" novalidate>
                         {% csrf_token %}
                         
                         <div class="mb-3">
-                            <label for="username" class="form-label text-light">
+                            <label class="form-label text-light">
                                 <i class="bi bi-person-badge"></i> Username
                             </label>
                             <input type="text" 
-                                   name="username" 
+                                   value="{{ user.username }}" 
                                    class="form-control bg-dark text-light border-secondary" 
-                                   required>
-                            <div class="invalid-feedback">
-                                Please choose a username
-                            </div>
+                                   disabled>
                         </div>
 
                         <div class="mb-3">
-                            <label for="password1" class="form-label text-light">
-                                <i class="bi bi-lock-fill"></i> Password
+                            <label for="old_password" class="form-label text-light">
+                                <i class="bi bi-lock-fill"></i> Current Password
                             </label>
                             <input type="password" 
-                                   name="password1" 
+                                   name="old_password" 
                                    class="form-control bg-dark text-light border-secondary" 
                                    required>
-                            <div class="invalid-feedback">
-                                Please enter a password
-                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="password2" class="form-label text-light">
-                                <i class="bi bi-lock-fill"></i> Confirm Password
+                            <label for="new_password1" class="form-label text-light">
+                                <i class="bi bi-key-fill"></i> New Password
                             </label>
                             <input type="password" 
-                                   name="password2" 
+                                   name="new_password1" 
                                    class="form-control bg-dark text-light border-secondary" 
                                    required>
-                            <div class="invalid-feedback">
-                                Please confirm your password
-                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="new_password2" class="form-label text-light">
+                                <i class="bi bi-key"></i> Confirm New Password
+                            </label>
+                            <input type="password" 
+                                   name="new_password2" 
+                                   class="form-control bg-dark text-light border-secondary" 
+                                   required>
                         </div>
 
                         <button type="submit" class="btn btn-danger w-100 py-2">
-                            <i class="bi bi-person-check"></i> Register
+                            <i class="bi bi-save"></i> Update Password
                         </button>
-
-                        <div class="text-center mt-4">
-                            <p class="text-white">
-                                Already have an account? 
-                                <a href="{% url 'login' %}" class="text-danger text-decoration-none">
-                                    Login here
-                                </a>
-                            </p>
-                        </div>
                     </form>
                 </div>
             </div>

@@ -1,0 +1,12 @@
+/* Base styles */
+body {
+    min-height: 100vh;
+}
+
+.movie-card {
+    transition: transform 0.2s;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+}

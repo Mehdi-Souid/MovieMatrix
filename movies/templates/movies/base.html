@@ -1,28 +1,75 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MovieMatrix</title>
-    <link rel="stylesheet" href="{% static 'movies/css/style.css' %}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'movies/css/main.css' %}">
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-left">
-            <span class="app-name">MovieMatrix</span>
-        </div>
-        <div class="nav-right">
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'wishlist' %}">Wishlist</a>
-            {% if user.is_authenticated %}
-                <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="nav-link">Logout</button>
-                </form>
-            {% endif %}
+<body class="bg-dark text-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom border-secondary">
+        <div class="container">
+            <a class="navbar-brand text-danger fw-bold fs-3" href="{% url 'home' %}">
+                <i class="bi bi-film"></i> MovieMatrix
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item mx-1">
+                        <a href="{% url 'home' %}" class="btn btn-outline-light">
+                            <i class="bi bi-house-door"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item mx-1">
+                        <a href="{% url 'wishlist' %}" class="btn btn-outline-light">
+                            <i class="bi bi-bookmark-heart"></i> Wishlist
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item mx-1">
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-box-arrow-right"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item mx-1">
+                        <a href="{% url 'login' %}" class="btn btn-primary">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item mx-1">
+                        <a href="{% if user.is_authenticated %}{% url 'edit_profile' %}{% else %}{% url 'login' %}?next={{ request.path }}{% endif %}" 
+                           class="btn btn-outline-light">
+                            <i class="bi bi-person-circle"></i>
+                            {% if user.is_authenticated %}{{ user.username }}{% else %}Profile{% endif %}
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
-    <div class="content">
+    
+    <main class="container py-4">
         {% block content %}{% endblock %}
-    </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{% static 'movies/js/main.js' %}"></script>
 </body>
 </html>

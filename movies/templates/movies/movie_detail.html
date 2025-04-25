@@ -1,23 +1,120 @@
 {% extends 'movies/base.html' %}
 {% block content %}
 <div class="movie-detail">
-    <img src="{{ movie.image.url }}" alt="{{ movie.mov_title }}">
-    <h1>{{ movie.mov_title }}</h1>
-    <p>Year: {{ movie.mov_year }}</p>
-    <p>Duration: {{ movie.mov_time }} minutes</p>
-    
-    <h3>Actors:</h3>
-    <ul>
-        {% for cast in movie.moviecast_set.all %}
-        <li>{{ cast.actor }} as {{ cast.role }}</li>
-        {% endfor %}
-    </ul>
+    <!-- Main Card -->
+    <div class="card bg-black border-secondary mb-4">
+        <div class="row g-0">
+            <!-- Poster Column -->
+            <div class="col-md-4">
+                <img src="{{ movie.image.url }}" 
+                     class="img-fluid rounded-start h-100" 
+                     alt="{{ movie.mov_title }}"
+                     style="object-fit: cover;">
+            </div>
+            
+            <!-- Details Column -->
+            <div class="col-md-8">
+                <div class="card-body">
+                    <!-- Title and Basic Info -->
+                    <h1 class="text-danger mb-3">{{ movie.mov_title }}</h1>
+                    <div class="text-white mb-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p><i class="bi bi-calendar"></i> {{ movie.mov_year }}</p>
+                                <p><i class="bi bi-clock"></i> {{ movie.mov_time }} mins</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p><i class="bi bi-globe"></i> {{ movie.mov_lang }}</p>
+                                <p><i class="bi bi-flag"></i> {{ movie.mov_rel_country }}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="rating-badge">
+                                    {{ movie.avg_rating|floatformat:1 }}/5 ★
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-    <h3>Genres:</h3>
-    <ul>
-        {% for genre in movie.genres.all %}
-        <li>{{ genre.gen_title }}</li>
-        {% endfor %}
-    </ul>
+                    <!-- Genres -->
+                    <div class="genres mb-4">
+                        <h5 class="text-light">Genres</h5>
+                        {% for genre in movie.genres.all %}
+                            <span class="badge bg-danger me-1">{{ genre.gen_title }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Cast -->
+                    <div class="cast mb-4">
+                        <h5 class="text-light">Cast</h5>
+                        <div class="row">
+                            {% for cast in movie.moviecast_set.all %}
+                            <div class="col-md-4 mb-3">
+                                <div class="card bg-dark">
+                                    <div class="card-body">
+                                        <h6 class="text-danger">{{ cast.actor.act_fname }} {{ cast.actor.act_lname }}</h6>
+                                        <small class="text-muted">as {{ cast.role }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Directors -->
+                    <div class="directors mb-4">
+                        <h5 class="text-light">Directors</h5>
+                        <div class="row">
+                            {% for direction in movie.moviedirection_set.all %}
+                            <div class="col-md-4 mb-3">
+                                <div class="card bg-dark">
+                                    <div class="card-body">
+                                        <h6 class="text-danger">
+                                            {{ direction.director.dir_fname }} {{ direction.director.dir_lname }}
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rating Section -->
+    <div class="rating-section">
+        {% if user.is_authenticated %}
+        <div class="card bg-black border-secondary p-3 mb-4">
+            <h4 class="text-light mb-3">
+                {% if existing_rating %}
+                    Your Rating: {{ existing_rating }} ★
+                {% else %}
+                    Rate This Movie
+                {% endif %}
+            </h4>
+            
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row align-items-center">
+                    <div class="col-md-4">
+                        {{ form.rev_stars }}
+                    </div>
+                    <div class="col-md-8">
+                        <button type="submit" class="btn btn-danger">
+                            {% if existing_rating %}Update Rating{% else %}Submit Rating{% endif %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <a href="{% url 'login' %}?next={{ request.path }}" class="text-decoration-none">
+                <i class="bi bi-box-arrow-in-right"></i> Login to rate this movie
+            </a>
+        </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

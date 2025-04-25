@@ -1,0 +1,11 @@
+/* Homepage specific styles */
+.filter-controls {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.rating-badge {
+    background: #e50914;
+    width: 60px;
+}

@@ -1,0 +1,28 @@
+/* Movie Detail Enhancements */
+.rating-badge {
+    background: #e50914;
+    padding: 8px 20px;
+    border-radius: 25px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.cast .card, .directors .card {
+    transition: transform 0.2s;
+    border: 1px solid #333;
+}
+
+.cast .card:hover, .directors .card:hover {
+    transform: translateY(-3px);
+    border-color: #e50914;
+}
+
+.bi {
+    margin-right: 5px;
+}
+
+.genres .badge {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
