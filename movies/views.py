@@ -11,7 +11,6 @@ from django.db.models import Avg, Q
 from .forms import CustomUserCreationForm
 from .models import Movie, Wishlist, Genre, Rating
 from .forms import RatingForm
-from django.core.paginator import Paginator
 
 def home(request):
     genre_filter = request.GET.get('genre')
