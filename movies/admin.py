@@ -8,7 +8,7 @@ from .models import (
     MovieCast,
     MovieDirection,
     Rating,
-    Wishlist  # Add this
+    Wishlist  
 )
 
 admin.site.register(Genre)
@@ -19,4 +19,4 @@ admin.site.register(MovieGenre)
 admin.site.register(MovieCast)
 admin.site.register(MovieDirection)
 admin.site.register(Rating)
-admin.site.register(Wishlist)  # Add this line
+admin.site.register(Wishlist)  

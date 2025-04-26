@@ -23,4 +23,4 @@ urlpatterns = [
     path('accounts/register/', views.register, name='register'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
 
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

@@ -9,60 +9,75 @@
                         <i class="bi bi-person-plus"></i> Create Account
                     </h2>
 
+                    <!-- Error Messages -->
+                    {% if messages %}
+                    <div class="alert alert-danger">
+                        {% for message in messages %}
+                        <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
                     <form method="post" class="needs-validation" novalidate>
                         {% csrf_token %}
                         
+                        <!-- Username Field -->
                         <div class="mb-3">
-                            <label for="username" class="form-label text-light">
+                            <label for="id_username" class="form-label text-light">
                                 <i class="bi bi-person-badge"></i> Username
                             </label>
                             <input type="text" 
                                    name="username" 
-                                   class="form-control bg-dark text-light border-secondary" 
-                                   required>
+                                   class="form-control bg-dark text-light border-secondary {% if form.username.errors %}is-invalid{% endif %}" 
+                                   required
+                                   id="id_username">
+                            {% for error in form.username.errors %}
                             <div class="invalid-feedback">
-                                Please choose a username
+                                {{ error }}
                             </div>
+                            {% endfor %}
                         </div>
 
+                        <!-- Password Field -->
                         <div class="mb-3">
-                            <label for="password1" class="form-label text-light">
+                            <label for="id_password1" class="form-label text-light">
                                 <i class="bi bi-lock-fill"></i> Password
                             </label>
                             <input type="password" 
                                    name="password1" 
-                                   class="form-control bg-dark text-light border-secondary" 
-                                   required>
+                                   class="form-control bg-dark text-light border-secondary {% if form.password1.errors %}is-invalid{% endif %}" 
+                                   required
+                                   id="id_password1">
+                            {% for error in form.password1.errors %}
                             <div class="invalid-feedback">
-                                Please enter a password
+                                {{ error }}
                             </div>
+                            {% endfor %}
+                            <small class="text-white d-block mt-1">
+                                Your password must contain at least 8 characters.
+                            </small>
                         </div>
 
+                        <!-- Password Confirmation -->
                         <div class="mb-4">
-                            <label for="password2" class="form-label text-light">
+                            <label for="id_password2" class="form-label text-light">
                                 <i class="bi bi-lock-fill"></i> Confirm Password
                             </label>
                             <input type="password" 
                                    name="password2" 
-                                   class="form-control bg-dark text-light border-secondary" 
-                                   required>
+                                   class="form-control bg-dark text-light border-secondary {% if form.password2.errors %}is-invalid{% endif %}" 
+                                   required
+                                   id="id_password2">
+                            {% for error in form.password2.errors %}
                             <div class="invalid-feedback">
-                                Please confirm your password
+                                {{ error }}
                             </div>
+                            {% endfor %}
                         </div>
 
                         <button type="submit" class="btn btn-danger w-100 py-2">
                             <i class="bi bi-person-check"></i> Register
                         </button>
-
-                        <div class="text-center mt-4">
-                            <p class="text-white">
-                                Already have an account? 
-                                <a href="{% url 'login' %}" class="text-danger text-decoration-none">
-                                    Login here
-                                </a>
-                            </p>
-                        </div>
                     </form>
                 </div>
             </div>

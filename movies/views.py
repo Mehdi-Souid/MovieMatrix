@@ -1,30 +1,25 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Movie, Wishlist,Genre,Rating
+from django.contrib import messages
+from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.db.models import Avg
-from django.db.models import Q, Avg
+from django.contrib.auth.forms import (
+    AuthenticationForm, 
+    UserCreationForm, 
+    PasswordChangeForm
+)
+from django.db.models import Avg, Q
+from .forms import CustomUserCreationForm
+from .models import Movie, Wishlist, Genre, Rating
+from .forms import RatingForm
 from django.core.paginator import Paginator
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
-from .forms import RatingForm  # We'll create this next
-from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import update_session_auth_hash
-from django.contrib import messages
-from django.contrib.auth.forms import PasswordChangeForm
+
 def home(request):
-    # Get filter parameters
     genre_filter = request.GET.get('genre')
     sort_by = request.GET.get('sort')
     search_query = request.GET.get('search')
 
-    # Base queryset
     movies = Movie.objects.annotate(avg_rating=Avg('ratings__rev_stars'))
 
-    # Apply filters
     if genre_filter:
         movies = movies.filter(genres__id=genre_filter)
 
@@ -35,7 +30,6 @@ def home(request):
             Q(mov_rel_country__icontains=search_query)
         )
 
-    # Apply sorting
     if sort_by == 'rating':
         movies = movies.order_by('-avg_rating')
     elif sort_by == 'newest':
@@ -70,7 +64,6 @@ def movie_detail(request, movie_id):
             
         form = RatingForm(request.POST)
         if form.is_valid():
-            # Update existing rating or create new
             if user_rating:
                 user_rating.rev_stars = form.cleaned_data['rev_stars']
                 user_rating.save()
@@ -105,13 +98,18 @@ def add_to_wishlist(request, movie_id):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Auto-login after registration
-            return redirect('home')
+            messages.success(request, 'Account created successfully! You can now login.')
+            return redirect('login')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field.title()}: {error}")
     else:
         form = UserCreationForm()
+    
     return render(request, 'registration/register.html', {'form': form})
 
 @login_required
@@ -162,7 +160,7 @@ def edit_profile(request):
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)  # Important!
+            update_session_auth_hash(request, user)  
             messages.success(request, 'Password updated successfully!')
             return redirect('edit_profile')
         else:

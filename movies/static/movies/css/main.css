@@ -1,8 +1,7 @@
-/* Import partials */
 @import 'base.css';
 @import 'home.css';
 @import 'movies.css';
-/* Navbar enhancements */
+/* Navbar */
 .navbar-brand {
     letter-spacing: 1px;
 }
@@ -17,26 +16,23 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* Active state for current page */
 .nav-item .active {
     font-weight: bold;
     border-bottom: 2px solid #e50914;
 }
-/* Filter controls */
 .filter-controls .form-control:focus,
 .filter-controls .form-select:focus {
     border-color: #e50914;
     box-shadow: 0 0 0 0.25rem rgba(229, 9, 20, 0.25);
 }
 
-/* Search input group */
+/* Search */
 .input-group-text {
     background-color: #e50914;
     border-color: #e50914;
     color: white;
 }
 
-/* Rating badge */
 .rating-badge {
     background: #e50914;
     padding: 5px 15px;
@@ -45,7 +41,6 @@
     min-width: 70px;
 }
 
-/* Auth Pages */
 .auth-card {
     border-radius: 15px;
     overflow: hidden;
@@ -65,12 +60,10 @@
     color: #e50914 !important;
 }
 
-/* Custom Checkbox */
 .form-check-input:checked {
     background-color: #e50914;
     border-color: #e50914;
 }
-/* Profile Page Styling */
 .profile-card {
     border-radius: 15px;
     transition: transform 0.3s;
